@@ -8,7 +8,12 @@ class Parser(ABC):
 
 
     @abstractmethod
-    def gotoElement(self,name: str) -> bool:
+    def goBack(self):
+        pass
+
+
+    @abstractmethod
+    def gotoElement(self, name: str) -> bool:
         return False
 
 

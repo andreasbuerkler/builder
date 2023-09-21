@@ -8,7 +8,7 @@ from datetime import datetime
 from log import Log
 from config.yamlParser import YamlParser
 from config.example import Example
-import jobs
+import tasks
 
 def parseArgs(argv):
     parser = argparse.ArgumentParser(description='The Great Builder')
@@ -30,7 +30,7 @@ def reportTime():
 
 def builder(argv):
     args = parseArgs(argv)
-    jobs.init()
+    tasks.init()
 
     # setup logger
     log = Log()
@@ -41,8 +41,8 @@ def builder(argv):
     # display example configuration file
     if args.example:
         example = Example()
-        for job in jobs.getJobs():
-            example.addData(job.getHelp())
+        for task in tasks.getTasks():
+            example.addData(task.getConfigList())
         logging.info(example.getExampleConfig())
         return
 
@@ -52,10 +52,10 @@ def builder(argv):
 
     reportTime()
     parser = YamlParser(args.config)
-    for job in jobs.getJobs():
-        job.parseConfig(parser)
-    for job in jobs.getJobs():
-        job.execute()
+    for task in tasks.getTasks():
+        task.parseConfig(parser)
+    for task in tasks.getTasks():
+        task.execute()
 
     logging.info("Build completed")
 
