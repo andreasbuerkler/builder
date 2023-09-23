@@ -42,7 +42,7 @@ def builder(argv):
     if args.example:
         example = Example()
         for task in tasks.getTasks():
-            example.addData(task.getConfigList())
+            example.addParameter(task.getTree())
         logging.info(example.getExampleConfig())
         return
 

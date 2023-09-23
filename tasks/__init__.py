@@ -1,15 +1,16 @@
-from tasks import test
+from tasks.task import Task
+from tasks.test import Test
 
-Tasks = []
+TaskList = []
 
 def getPriority(module) -> int:
     return module.getPriority()
 
 
 def init():
-    Tasks.append(test.Test("Test", 6))
+    TaskList.append(Test("Test", 6))
 
 
-def getTasks() -> list:
-    return sorted(Tasks, key=getPriority)
+def getTasks() -> list[Task]:
+    return sorted(TaskList, key=getPriority)
 

@@ -31,13 +31,12 @@ class YamlParser(Parser):
 
 
     def gotoElement(self, name: str) -> bool:
-        try:
-            element = self.pointer.get(name)
-            self.stack.append(self.pointer)
-            self.pointer = element
-            return True
-        except:
+        if not self.elementIsAvailable(name):
             return False
+        element = self.pointer.get(name)
+        self.stack.append(self.pointer)
+        self.pointer = element
+        return True
 
 
     def getList(self) -> list:
