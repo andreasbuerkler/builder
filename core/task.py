@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
-from config.parser import Parser
-from config.parameter import Parameter
-from config.configTree import ConfigTree
+from core.parser import Parser
+from core.parameter import Parameter
+from core.configTree import ConfigTree
 
 class Task(ABC, ConfigTree):
 
@@ -30,7 +30,8 @@ class Task(ABC, ConfigTree):
 
     def parseConfig(self, parser: Parser):
         parser.gotoRoot()
-        self._iterateTree(self.getTree(), parser)
+        for branch in self.getTree():
+            self._iterateTree(branch, parser)
 
 
     @abstractmethod

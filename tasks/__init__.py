@@ -1,4 +1,4 @@
-from tasks.task import Task
+from core.task import Task
 from tasks.test import Test
 
 TaskList = []

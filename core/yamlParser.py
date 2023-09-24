@@ -1,7 +1,7 @@
 import os
 import logging
 import yaml
-from config.parser import Parser
+from core.parser import Parser
 from collections import deque
 
 class YamlParser(Parser):
@@ -33,17 +33,11 @@ class YamlParser(Parser):
     def gotoElement(self, name: str) -> bool:
         if not self.elementIsAvailable(name):
             return False
+
         element = self.pointer.get(name)
         self.stack.append(self.pointer)
         self.pointer = element
         return True
-
-
-    def getList(self) -> list:
-        list = []
-        for element, value in self.pointer.items():
-            list.append(element)
-        return list
 
 
     def elementIsAvailable(self, name: str) -> bool:
@@ -56,12 +50,20 @@ class YamlParser(Parser):
             return False
 
 
+    def getList(self) -> list[str]:
+        list = []
+        for element, unused in self.pointer.items():
+            _ = unused
+            list.append(element)
+        return list
+
+
     def getValue(self, name: str) -> str:
-        try:
-            element = self.pointer.get(name)
-            if isinstance(element, str):
-                return element
+        if not self.elementIsAvailable(name):
             return ""
-        except:
-            return ""
+
+        element = self.pointer.get(name)
+        if isinstance(element, str):
+            return element
+        return ""
 

@@ -1,5 +1,5 @@
-from tasks.task import Task
-from config.parameter import Parameter
+from core.task import Task
+from core.parameter import Parameter
 
 class Test(Task):
 

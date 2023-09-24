@@ -6,8 +6,8 @@ import argparse
 import logging
 from datetime import datetime
 from log import Log
-from config.yamlParser import YamlParser
-from config.example import Example
+from core.yamlParser import YamlParser
+from core.example import Example
 import tasks
 
 def parseArgs(argv):
@@ -42,7 +42,7 @@ def builder(argv):
     if args.example:
         example = Example()
         for task in tasks.getTasks():
-            example.addParameter(task.getTree())
+            example.addParameterList(task.getTree())
         logging.info(example.getExampleConfig())
         return
 
