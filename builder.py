@@ -28,34 +28,43 @@ def reportTime():
     logging.info("Build date and time: " + timeString)
 
 
-def builder(argv):
-    args = parseArgs(argv)
-    tasks.init()
-
-    # setup logger
+def setupLogger(enableDebug: bool, filePath: str):
     log = Log()
-    log.setupConsoleLogger(logging.DEBUG if args.debug else logging.INFO)
-    if args.file:
-        log.setupFileLogger(args.file)
+    log.setupConsoleLogger(logging.DEBUG if enableDebug else logging.INFO)
+    if filePath:
+        log.setupFileLogger(filePath)
 
-    # display example configuration file
-    if args.example:
-        example = Example()
-        for task in tasks.getTasks():
-            example.addParameterList(task.getTree())
-        logging.info(example.getExampleConfig())
-        return
 
-    # parse config file and execute build
-    if not args.config:
-        return
+def showExampleConfig():
+    tasks.init()
+    example = Example()
+    for task in tasks.getTasks():
+        example.addParameterList(task.getTree())
+    logging.info(example.getExampleConfig())
 
-    reportTime()
-    parser = YamlParser(args.config)
+
+def executeBuild(configFilePath: str):
+    tasks.init()
+    parser = YamlParser(configFilePath)
     for task in tasks.getTasks():
         task.parseConfig(parser)
     for task in tasks.getTasks():
         task.execute()
+
+
+def builder(argv):
+    args = parseArgs(argv)
+    setupLogger(args.debug, args.file)
+
+    # display example configuration file
+    if args.example:
+        showExampleConfig()
+        return
+
+    # parse config file and execute build
+    if args.config:
+        reportTime()
+        executeBuild(args.config)
 
     logging.info("Build completed")
 

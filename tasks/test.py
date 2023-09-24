@@ -1,3 +1,4 @@
+import logging
 from core.task import Task
 from core.parameter import Parameter
 
@@ -26,5 +27,5 @@ class Test(Task):
 
 
     def execute(self):
-        print("Test executed")
+        logging.info("Test executed")
 
