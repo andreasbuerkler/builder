@@ -1,4 +1,4 @@
-from core.parameter import Parameter
+from core.parameter import Parameter, ParameterTree
 from core.configTree import ConfigTree
 
 class Example(ConfigTree):
@@ -28,9 +28,9 @@ class Example(ConfigTree):
             self.text += "   # " + parameter.description
 
 
-    def _addParameterToExampleConfig(self, parameter: Parameter, indentation: int):
-        self._writeLine(indentation, parameter)
-        for child in parameter.children:
+    def _addParameterToExampleConfig(self, branch: ParameterTree, indentation: int):
+        self._writeLine(indentation, branch.parameter)
+        for child in branch.children:
             indentation += 1
             self._addParameterToExampleConfig(child, indentation)
             indentation -= 1

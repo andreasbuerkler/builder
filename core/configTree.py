@@ -1,6 +1,5 @@
 import logging
-from core.parameter import Parameter
-from copy import deepcopy
+from core.parameter import Parameter, ParameterTree
 
 class ConfigTree:
 
@@ -8,53 +7,47 @@ class ConfigTree:
         self.tree = []
 
 
-    def _createCopyWithoutChildren(self, parameter: Parameter) -> Parameter:
-        # No copy is needed when parameter has no children
-        if not parameter.children:
-            return parameter
-
-        # TODO: avoid copy
-        copy = deepcopy(parameter)
-        copy.children.clear()
-        return copy
-
-
-    def _addChildToTree(self, branches: list[Parameter], new: Parameter, parent: str) -> bool:
+    def _addChildToTree(self, branches: list[ParameterTree], new: ParameterTree) -> bool:
         for branch in branches:
-            if branch.name == parent:
-                branch.children.append(self._createCopyWithoutChildren(new))
+            if branch.parameter.name == new.parameter.parent:
+                branch.children.append(new)
                 return True
 
-            if self._addChildToTree(branch.children, new, parent):
+            if self._addChildToTree(branch.children, new):
                 return True
 
         return False
 
 
-    def _addParameterRecursive(self, new: Parameter, parent: str = ""):
-        if not self._addChildToTree(self.tree, new, parent):
-            logging.error("Parent not found: " + parent)
-            raise SystemExit()
-
-        parent = new.name
-        for child in new.children:
-            self._addParameterRecursive(child, parent)
-
-
-    def addParameterList(self, new: list[Parameter], parent: str = ""):
+    def addParameterList(self, new: list[Parameter]):
         for parameter in new:
-            self.addParameter(parameter, parent)
+            self.addParameter(parameter)
 
 
-    def addParameter(self, new: Parameter, parent: str = ""):
-        if not parent:
-            self.tree.append(self._createCopyWithoutChildren(new))
-            self.addParameterList(new.children, new.name)
+    def addParameter(self, new: Parameter):
+        if not new.parent:
+            self.tree.append(ParameterTree(new))
             return
 
-        self._addParameterRecursive(new, parent)
+        if not self._addChildToTree(self.tree, ParameterTree(new)):
+            logging.error("Parent not found: " + new.parent)
+            raise SystemExit()
 
 
-    def getTree(self) -> list[Parameter]:
+    def getTree(self) -> list[ParameterTree]:
         return self.tree
+
+
+    def _createList(self, parameterList: list[Parameter], branch: ParameterTree):
+        parameterList.append(branch.parameter)
+        for child in branch.children:
+            self._createList(parameterList, child)
+
+
+    def getList(self) -> list[Parameter]:
+        parameterList = []
+        for branch in self.tree:
+            self._createList(parameterList, branch)
+
+        return parameterList
 

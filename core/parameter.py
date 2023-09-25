@@ -6,5 +6,10 @@ class Parameter:
     example: str = ""
     description: str = ""
     value: str = ""
-    children: list["Parameter"] = field(default_factory=list)
+    parent: str = ""
+
+@dataclass
+class ParameterTree:
+    parameter: Parameter
+    children: list["ParameterTree"] = field(default_factory=list)
 

@@ -39,7 +39,7 @@ def showExampleConfig():
     tasks.init()
     example = Example()
     for task in tasks.getTasks():
-        example.addParameterList(task.getTree())
+        example.addParameterList(task.getList())
     logging.info(example.getExampleConfig())
 
 

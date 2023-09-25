@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from core.parser import Parser
-from core.parameter import Parameter
+from core.parameter import ParameterTree
 from core.configTree import ConfigTree
 
 class Task(ABC, ConfigTree):
@@ -18,10 +18,10 @@ class Task(ABC, ConfigTree):
         return self.priority
 
 
-    def _iterateTree(self, parameter: Parameter, parser: Parser):
-        parameter.value = parser.getValue(parameter.name)
-        elementIsPresent =  parser.gotoElement(parameter.name)
-        for child in parameter.children:
+    def _iterateTree(self, branch: ParameterTree, parser: Parser):
+        branch.parameter.value = parser.getValue(branch.parameter.name)
+        elementIsPresent =  parser.gotoElement(branch.parameter.name)
+        for child in branch.children:
             self._iterateTree(child, parser)
         if elementIsPresent:
             parser.goBack()
