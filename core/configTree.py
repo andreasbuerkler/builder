@@ -9,29 +9,30 @@ class ConfigTree:
 
 
     def _createCopyWithoutChildren(self, parameter: Parameter) -> Parameter:
+        # No copy is needed when parameter has no children
+        if not parameter.children:
+            return parameter
+
+        # TODO: avoid copy
         copy = deepcopy(parameter)
         copy.children.clear()
         return copy
 
 
-    def _addChildToTree(self, branch: Parameter, new: Parameter, parent: str) -> bool:
-        if branch.name == parent:
-            branch.children.append(self._createCopyWithoutChildren(new))
-            return True
+    def _addChildToTree(self, branches: list[Parameter], new: Parameter, parent: str) -> bool:
+        for branch in branches:
+            if branch.name == parent:
+                branch.children.append(self._createCopyWithoutChildren(new))
+                return True
 
-        for child in branch.children:
-            if self._addChildToTree(child, new, parent):
+            if self._addChildToTree(branch.children, new, parent):
                 return True
 
         return False
 
 
     def _addParameterRecursive(self, new: Parameter, parent: str = ""):
-        parameterAdded = False
-        for branch in self.tree:
-            parameterAdded = parameterAdded or self._addChildToTree(branch, new, parent)
-
-        if not parameterAdded:
+        if not self._addChildToTree(self.tree, new, parent):
             logging.error("Parent not found: " + parent)
             raise SystemExit()
 
