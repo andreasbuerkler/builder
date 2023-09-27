@@ -1,7 +1,7 @@
 from core.parameter import Parameter, ParameterTree
 from core.configTree import ConfigTree
 
-class Example(ConfigTree):
+class ExampleConfig(ConfigTree):
 
     def __init__(self):
         ConfigTree.__init__(self)

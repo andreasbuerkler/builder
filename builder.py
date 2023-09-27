@@ -6,8 +6,7 @@ import argparse
 import logging
 from datetime import datetime
 from log import Log
-from core.yamlParser import YamlParser
-from core.example import Example
+import core
 import tasks
 
 def parseArgs(argv):
@@ -35,36 +34,23 @@ def setupLogger(enableDebug: bool, filePath: str):
         log.setupFileLogger(filePath)
 
 
-def showExampleConfig():
-    tasks.init()
-    example = Example()
-    for task in tasks.getTasks():
-        example.addParameterList(task.getList())
-    logging.info(example.getExampleConfig())
-
-
-def executeBuild(configFilePath: str):
-    tasks.init()
-    parser = YamlParser(configFilePath)
-    for task in tasks.getTasks():
-        task.parseConfig(parser)
-    for task in tasks.getTasks():
-        task.execute()
-
-
 def builder(argv):
     args = parseArgs(argv)
     setupLogger(args.debug, args.file)
 
+    tasks.init()
+    for task in tasks.getTasks():
+        core.addTask(task)
+
     # display example configuration file
     if args.example:
-        showExampleConfig()
+        logging.info(core.getExampleConfig())
         return
 
     # parse config file and execute build
     if args.config:
         reportTime()
-        executeBuild(args.config)
+        core.executeBuild(args.config)
 
     logging.info("Build completed")
 
