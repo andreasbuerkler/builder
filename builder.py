@@ -27,7 +27,7 @@ def setupLogger(filePath: str, enableDebug: bool) -> None:
         log.setupFileLogger(filePath)
 
 
-def builder(argv) -> None:
+def builder(argv) -> int:
     args = parseArgs(argv)
     setupLogger(args.file, args.debug)
 
@@ -41,10 +41,11 @@ def builder(argv) -> None:
     # display example configuration file
     if args.example:
         logging.info(core.getExampleConfig())
-        return
+        return 0
 
     # execute build
     core.executeBuild()
+    return 0
 
 
 def main() -> None:

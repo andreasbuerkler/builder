@@ -33,6 +33,7 @@ class Log:
     def setupConsoleLogger(self, debugLevel: int) -> None:
         streamHandler = logging.StreamHandler()
         streamHandler.setFormatter(Log.ColorFormatter(enableColors = True))
+        streamHandler.setLevel(debugLevel)
         log = logging.getLogger()
         log.addHandler(streamHandler)
         log.setLevel(debugLevel)
