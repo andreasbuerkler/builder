@@ -5,7 +5,7 @@ from core.configTree import ConfigTree
 
 class Task(ABC, ConfigTree):
 
-    def __init__(self, name: str, priority: int):
+    def __init__(self, name: str, priority: int) -> None:
         ConfigTree.__init__(self)
         self.name = name
         self.priority = priority
@@ -18,7 +18,7 @@ class Task(ABC, ConfigTree):
         return self.priority
 
 
-    def _iterateTree(self, branch: ParameterTree, parser: Parser):
+    def _iterateTree(self, branch: ParameterTree, parser: Parser) -> None:
         branch.parameter.value = parser.getValue(branch.parameter.name)
         elementIsPresent =  parser.gotoElement(branch.parameter.name)
         for child in branch.children:
@@ -27,13 +27,13 @@ class Task(ABC, ConfigTree):
             parser.goBack()
 
 
-    def parseConfig(self, parser: Parser):
+    def parseConfig(self, parser: Parser) -> None:
         parser.gotoRoot()
         for branch in self.getTree():
             self._iterateTree(branch, parser)
 
 
     @abstractmethod
-    def execute(self):
+    def execute(self) -> None:
         pass
 

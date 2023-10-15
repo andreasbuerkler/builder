@@ -1,4 +1,3 @@
-import os
 import logging
 import yaml
 from core.parser import Parser
@@ -6,12 +5,7 @@ from collections import deque
 
 class YamlParser(Parser):
 
-    def __init__(self, filename: str):
-
-        if os.path.exists(filename) == False:
-            logging.error("Config file does not exist")
-            raise SystemExit()
-
+    def __init__(self, filename: str) -> None:
         logging.debug("Loading config file: " + filename)
 
         with open(filename, 'r') as f:
@@ -21,12 +15,12 @@ class YamlParser(Parser):
         self.stack = deque()
 
 
-    def gotoRoot(self):
+    def gotoRoot(self) -> None:
         self.pointer = self.yamlData
         self.stack.clear()
 
 
-    def goBack(self):
+    def goBack(self) -> None:
         self.pointer = self.stack.pop()
 
 

@@ -4,7 +4,7 @@ from core.parameter import Parameter
 
 class Test(Task):
 
-    def __init__(self, name: str, priority: int):
+    def __init__(self, name: str, priority: int) -> None:
         Task.__init__(self, name, priority)
 
         self.param_1 = Parameter(name = "param_1",
@@ -31,7 +31,7 @@ class Test(Task):
         self.addParameter(self.param_3)
 
 
-    def execute(self):
+    def execute(self) -> None:
         logging.info("param_1 = " + self.param_1.value)
         logging.info("param_2 = " + self.param_2.value)
         logging.info("param_3 = " + self.param_3.value)

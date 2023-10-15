@@ -3,10 +3,6 @@ import colorlog
 
 class Log:
 
-    def __init__(self):
-        pass
-
-
     def getCustomLogLevel(self, name: str) -> int:
         # use a level between 10 (INFO) and 20 (DEBUG)
         if name == "DEBUG_DIFF":
@@ -32,7 +28,7 @@ class Log:
         return format
 
 
-    def setupConsoleLogger(self, debugLevel: int):
+    def setupConsoleLogger(self, debugLevel: int) -> None:
         formatter = colorlog.ColoredFormatter(
             self._getLoggingFormat(True),
             log_colors={
@@ -59,7 +55,7 @@ class Log:
         log.setLevel(debugLevel)
 
 
-    def setupFileLogger(self, fileName: str):
+    def setupFileLogger(self, fileName: str) -> None:
         formatter = logging.Formatter(self._getLoggingFormat(False))
         fileHandler = logging.FileHandler(fileName, 'w')
         fileHandler.setFormatter(formatter)

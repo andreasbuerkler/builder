@@ -3,7 +3,7 @@ from tasks.test import Test
 
 taskList = []
 
-def init():
+def init() -> None:
     taskList.append(Test("Test", 6))
 
 

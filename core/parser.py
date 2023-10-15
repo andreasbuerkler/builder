@@ -3,12 +3,12 @@ from abc import ABC, abstractmethod
 class Parser(ABC):
 
     @abstractmethod
-    def gotoRoot(self):
+    def gotoRoot(self) -> None:
         pass
 
 
     @abstractmethod
-    def goBack(self):
+    def goBack(self) -> None:
         pass
 
 

@@ -3,7 +3,7 @@ from core.parameter import Parameter, ParameterTree
 
 class ConfigTree:
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.tree = []
 
 
@@ -19,12 +19,12 @@ class ConfigTree:
         return False
 
 
-    def addParameterList(self, new: list[Parameter]):
+    def addParameterList(self, new: list[Parameter]) -> None:
         for parameter in new:
             self.addParameter(parameter)
 
 
-    def addParameter(self, new: Parameter):
+    def addParameter(self, new: Parameter) -> None:
         if not new.parent:
             self.tree.append(ParameterTree(new))
             return
@@ -38,7 +38,7 @@ class ConfigTree:
         return self.tree
 
 
-    def _createList(self, parameterList: list[Parameter], branch: ParameterTree):
+    def _createList(self, parameterList: list[Parameter], branch: ParameterTree) -> None:
         parameterList.append(branch.parameter)
         for child in branch.children:
             self._createList(parameterList, child)

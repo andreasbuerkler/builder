@@ -3,22 +3,22 @@ from core.configTree import ConfigTree
 
 class ExampleConfig(ConfigTree):
 
-    def __init__(self):
+    def __init__(self) -> None:
         ConfigTree.__init__(self)
         self.text = ""
 
 
-    def _writeNewLine(self):
+    def _writeNewLine(self) -> None:
         self.text += "\n"
 
 
-    def _writeIndentation(self, level: int):
+    def _writeIndentation(self, level: int) -> None:
         for unused in range(0, level):
             _ = unused
             self.text += "    "
 
 
-    def _writeLine(self, indentation: int, parameter: Parameter):
+    def _writeLine(self, indentation: int, parameter: Parameter) -> None:
         self._writeNewLine()
         self._writeIndentation(indentation)
         self.text += parameter.name + ":"
@@ -28,7 +28,7 @@ class ExampleConfig(ConfigTree):
             self.text += "   # " + parameter.description
 
 
-    def _addParameterToExampleConfig(self, branch: ParameterTree, indentation: int):
+    def _addParameterToExampleConfig(self, branch: ParameterTree, indentation: int) -> None:
         self._writeLine(indentation, branch.parameter)
         for child in branch.children:
             indentation += 1

@@ -9,7 +9,7 @@ from log import Log
 import core
 import tasks
 
-def parseArgs(argv):
+def parseArgs(argv) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description='The Great Builder')
 
     parser.add_argument('-v', action="version", version="0.1")
@@ -21,20 +21,20 @@ def parseArgs(argv):
     return parser.parse_args(argv)
 
 
-def reportTime():
+def reportTime() -> None:
     now = datetime.now()
     timeString = now.strftime("%d.%m.%Y %H:%M:%S")
     logging.info("Build date and time: " + timeString)
 
 
-def setupLogger(enableDebug: bool, filePath: str):
+def setupLogger(enableDebug: bool, filePath: str) -> None:
     log = Log()
     log.setupConsoleLogger(logging.DEBUG if enableDebug else logging.INFO)
     if filePath:
         log.setupFileLogger(filePath)
 
 
-def builder(argv):
+def builder(argv) -> None:
     args = parseArgs(argv)
     setupLogger(args.debug, args.file)
 
@@ -55,7 +55,7 @@ def builder(argv):
     logging.info("Build completed")
 
 
-def main():
+def main() -> None:
     try:
         sys.exit(builder(sys.argv[1:]))
     except Exception as err:
