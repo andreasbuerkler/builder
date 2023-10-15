@@ -4,7 +4,6 @@ import sys
 import traceback
 import argparse
 import logging
-from datetime import datetime
 from log import Log
 import core
 import tasks
@@ -21,13 +20,7 @@ def parseArgs(argv) -> argparse.Namespace:
     return parser.parse_args(argv)
 
 
-def reportTime() -> None:
-    now = datetime.now()
-    timeString = now.strftime("%d.%m.%Y %H:%M:%S")
-    logging.info("Build date and time: " + timeString)
-
-
-def setupLogger(enableDebug: bool, filePath: str) -> None:
+def setupLogger(filePath: str, enableDebug: bool) -> None:
     log = Log()
     log.setupConsoleLogger(logging.DEBUG if enableDebug else logging.INFO)
     if filePath:
@@ -36,7 +29,10 @@ def setupLogger(enableDebug: bool, filePath: str) -> None:
 
 def builder(argv) -> None:
     args = parseArgs(argv)
-    setupLogger(args.debug, args.file)
+    setupLogger(args.file, args.debug)
+
+    if args.config:
+        core.configure(args.config)
 
     tasks.init()
     for task in tasks.getTasks():
@@ -47,12 +43,8 @@ def builder(argv) -> None:
         logging.info(core.getExampleConfig())
         return
 
-    # parse config file and execute build
-    if args.config:
-        reportTime()
-        core.executeBuild(args.config)
-
-    logging.info("Build completed")
+    # execute build
+    core.executeBuild()
 
 
 def main() -> None:

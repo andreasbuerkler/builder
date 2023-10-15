@@ -32,8 +32,8 @@ class Test(Task):
 
 
     def execute(self) -> None:
-        logging.info("param_1 = " + self.param_1.value)
-        logging.info("param_2 = " + self.param_2.value)
-        logging.info("param_3 = " + self.param_3.value)
+        logging.debug("param_1 = " + self.param_1.value)
+        logging.debug("param_2 = " + self.param_2.value)
+        logging.debug("param_3 = " + self.param_3.value)
         logging.info("Test executed")
 
