@@ -35,12 +35,13 @@ def builder(argv) -> int:
         core.configure(args.config)
 
     tasks.init()
+
     for task in tasks.getTasks():
         core.addTask(task)
 
     # display example configuration file
     if args.example:
-        logging.info(core.getExampleConfig())
+        logging.info("Example:" + core.getExampleConfig())
         return 0
 
     # execute build
