@@ -8,17 +8,15 @@ class CacheConfig(Task):
         Task.__init__(self, name, priority)
 
         self.download = Parameter(name = "download",
-                                 example = "\"cache/dl\"",
-                                 description = "",
-                                 parent = "cache")
-        self.sharedState = Parameter(name = "sharedState",
-                                 example = "\"cache/sstate\"",
-                                 description = "",
-                                 parent = "cache")
+                                 example = "cache/dl",
+                                 description = "")
 
-        self.addParameter(Parameter(name = "cache"))
-        self.addParameter(self.download)
-        self.addParameter(self.sharedState)
+        self.sharedState = Parameter(name = "sharedState",
+                                 example = "cache/sstate",
+                                 description = "")
+
+        self.addParameterWithParent(["cache"], self.download)
+        self.addParameterWithParent(["cache"], self.sharedState)
 
 
     def execute(self) -> None:

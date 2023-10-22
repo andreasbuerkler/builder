@@ -23,7 +23,7 @@ class ExampleConfig(ConfigTree):
         self._writeIndentation(indentation)
         self.text += parameter.name + ":"
         if parameter.example:
-            self.text += " " + parameter.example
+            self.text += " \"" + parameter.example + "\""
         if parameter.description:
             self.text += "   # " + parameter.description
 

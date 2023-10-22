@@ -8,17 +8,15 @@ class WicImage(Task):
         Task.__init__(self, name, priority)
 
         self.fat_size = Parameter(name = "fat-size",
-                                  example = "\"200\"",
-                                  description = "optional, size in MByte, use default partitioning if missing",
-                                  parent = "image")
-        self.ext4_size = Parameter(name = "ext4-size",
-                                   example = "\"500\"",
-                                   description = "optional, no ext4 if missing",
-                                 parent = "image")
+                                  example = "200",
+                                  description = "optional, size in MByte, use default partitioning if missing")
 
-        self.addParameter(Parameter(name = "image"))
-        self.addParameter(self.fat_size)
-        self.addParameter(self.ext4_size)
+        self.ext4_size = Parameter(name = "ext4-size",
+                                   example = "500",
+                                   description = "optional, no ext4 if missing")
+
+        self.addParameterWithParent(["image"], self.fat_size)
+        self.addParameterWithParent(["image"], self.ext4_size)
 
 
     def execute(self) -> None:

@@ -7,33 +7,50 @@ class BootBinary(Task):
     def __init__(self, name: str, priority: int) -> None:
         Task.__init__(self, name, priority)
 
-#        self.param_1 = Parameter(name = "param_1",
- #                                example = "test 1",
-  #                               description = "test parameter 1",
-  #                               parent = "section_1_1")
-  #      self.param_2 = Parameter(name = "param_2",
-  #                               example = "test 2",
-  #                               description = "test parameter 2",
-  #                               parent = "section_1_1")
-  #      self.param_3 = Parameter(name = "param_3",
-  #                               example = "test 3",
-  #                               description = "test parameter 2",
-  #                               parent = "section_2")
+        self.fsbl = Parameter(name = "fsbl",
+                              example = "zynqmp_fsbl.elf",
+                              description = "optional")
 
-  #      self.addParameter(Parameter(name = "section_1"))
-  #      self.addParameter(Parameter(name = "section_1_1",
-  #                                  parent = "section_1"))
-  #      self.addParameter(self.param_1)
-  #      self.addParameter(self.param_2)
-  #      self.addParameter(Parameter(name = "section_1_2",
-  #                                  parent = "section_1"))
-  #      self.addParameter(Parameter(name = "section_2"))
-  #      self.addParameter(self.param_3)
+        self.fpga = Parameter(name = "fpga",
+                              example = "fpga.bit",
+                              description = "optional")
+
+        self.atf = Parameter(name = "atf",
+                             example = "bl31.elf",
+                             description = "optional")
+
+        self.uboot = Parameter(name = "uboot",
+                               example = "u-boot.elf",
+                               description = "optional")
+
+        self.pmufw = Parameter(name = "pmufw",
+                               example = "pmufw.elf",
+                               description = "optional")
+
+        self.rpu = Parameter(name = "rpu",
+                             example = "test.elf",
+                             description = "optional")
+
+        self.init = Parameter(name = "init",
+                              example = "regs.init",
+                              description = "optional")
+
+        self.addParameterWithParent(["binary"], self.fsbl)
+        self.addParameterWithParent(["binary"], self.fpga)
+        self.addParameterWithParent(["binary"], self.atf)
+        self.addParameterWithParent(["binary"], self.uboot)
+        self.addParameterWithParent(["binary"], self.pmufw)
+        self.addParameterWithParent(["binary"], self.rpu)
+        self.addParameterWithParent(["binary"], self.init)
 
 
     def execute(self) -> None:
-  #      logging.debug("param_1 = " + self.param_1.value)
-  #      logging.debug("param_2 = " + self.param_2.value)
-  #      logging.debug("param_3 = " + self.param_3.value)
+        logging.debug("fsbl = " + self.fsbl.value)
+        logging.debug("fpga = " + self.fpga.value)
+        logging.debug("atf = " + self.atf.value)
+        logging.debug("uboot = " + self.uboot.value)
+        logging.debug("pmufw = " + self.pmufw.value)
+        logging.debug("rpu = " + self.rpu.value)
+        logging.debug("init = " + self.init.value)
         logging.info("BootBinary executed")
 

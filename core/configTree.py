@@ -7,17 +7,18 @@ class ConfigTree:
         self.tree = []
 
 
-    def _RaiseErrorIfParameterIsDuplicate(self, trunk: list[ParameterTree], new: Parameter) -> None:
+    def _CheckIfParameterExists(self, trunk: list[ParameterTree], new: Parameter) -> bool:
         for branch in trunk:
             if branch.parameter.name == new.name:
-                logging.error("Parameter does already exist: " + new.name)
-                raise SystemExit()
+                return True
+        return False
 
 
     def _addChildToTree(self, branches: list[ParameterTree], new: ParameterTree) -> bool:
         for branch in branches:
             if branch.parameter.name == new.parameter.parent:
-                self._RaiseErrorIfParameterIsDuplicate(branch.children, new.parameter)
+                if self._CheckIfParameterExists(branch.children, new.parameter):
+                    return True
                 branch.children.append(new)
                 return True
 
@@ -34,13 +35,23 @@ class ConfigTree:
 
     def addParameter(self, new: Parameter) -> None:
         if not new.parent:
-            self._RaiseErrorIfParameterIsDuplicate(self.tree, new)
+            if self._CheckIfParameterExists(self.tree, new):
+                return
             self.tree.append(ParameterTree(new))
             return
 
         if not self._addChildToTree(self.tree, ParameterTree(new)):
             logging.error("Parent not found: " + new.parent)
             raise SystemExit()
+
+
+    def addParameterWithParent(self, parentList: list[str], new: Parameter):
+        parent = ""
+        for name in parentList:
+            self.addParameter(Parameter(name = name, parent = parent))
+            parent = name
+        new.parent = parent
+        self.addParameter(new)
 
 
     def getTree(self) -> list[ParameterTree]:

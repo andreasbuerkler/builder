@@ -8,12 +8,10 @@ class VersionCheck(Task):
         Task.__init__(self, name, priority)
 
         self.version = Parameter(name = "version",
-                                 example = "\"2022.1\"",
-                                 description = "",
-                                 parent = "header")
+                                 example = "2022.1",
+                                 description = "")
 
-        self.addParameter(Parameter(name = "header"))
-        self.addParameter(self.version)
+        self.addParameterWithParent(["header"], self.version)
 
 
     def execute(self) -> None:
