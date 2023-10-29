@@ -41,7 +41,8 @@ def builder(argv) -> int:
 
     # display example configuration file
     if args.example:
-        logging.info("Example:" + core.getExampleConfig())
+        message = "\n".ljust(80, "-") + core.getExampleConfig() + "\n".ljust(80, "-")
+        logging.info("Example:" + message)
         return 0
 
     # execute build

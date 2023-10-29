@@ -1,3 +1,4 @@
+import time
 import logging
 
 class Log:
@@ -5,6 +6,7 @@ class Log:
     class ColorFormatter(logging.Formatter):
 
         def __init__(self, enableColors: bool = False) -> None:
+            self.time = time.time()
             if enableColors:
                 self.colorGreen = "\u001b[32m"
                 self.colorRed = "\u001b[31m"
@@ -17,15 +19,20 @@ class Log:
                 self.colorReset = ""
 
 
+        def createFormatString(self, color: str, label: str, message: str) -> str:
+            passedTime = f"{(time.time() - self.time):.0f}"
+            return passedTime.rjust(5) + "s  " + color + label.ljust(7) + self.colorReset + message
+
+
         def format(self, record: logging.LogRecord) -> str:
             if record.levelno == logging.DEBUG:
-                formatString = self.colorYellow + "DEBUG     " + self.colorReset + record.getMessage()
+                formatString = self.createFormatString(self.colorYellow, "DEBUG", record.getMessage())
             elif record.levelno == logging.INFO:
-                formatString = self.colorGreen + "INFO      " + self.colorReset + record.getMessage()
+                formatString = self.createFormatString(self.colorGreen, "INFO", record.getMessage())
             elif record.levelno == logging.ERROR:
-                formatString = self.colorRed + "ERROR     " + self.colorReset + record.getMessage()
+                formatString = self.createFormatString(self.colorRed, "ERROR", record.getMessage())
             else:
-                formatString = record.getMessage()
+                formatString = self.createFormatString(self.colorReset, "", record.getMessage())
 
             return formatString
 
