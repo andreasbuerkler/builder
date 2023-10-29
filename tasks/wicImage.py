@@ -19,8 +19,16 @@ class WicImage(Task):
         self.addParameterWithParent(["image"], self.ext4_size)
 
 
-    def execute(self) -> None:
+    def prepare(self) -> None:
+        pass
+
+
+    def build(self) -> None:
         logging.debug("fat-size = " + self.fat_size.value)
         logging.debug("ext4-size = " + self.ext4_size.value)
         logging.info("WicImage executed")
+
+
+    def clean(self) -> None:
+        pass
 

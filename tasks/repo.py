@@ -8,6 +8,14 @@ class Repo(Task):
         Task.__init__(self, name, priority)
 
 
-    def execute(self) -> None:
+    def prepare(self) -> None:
+        pass
+
+
+    def build(self) -> None:
         logging.info("Repo executed")
+
+
+    def clean(self) -> None:
+        pass
 

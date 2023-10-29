@@ -14,7 +14,15 @@ class VersionCheck(Task):
         self.addParameterWithParent(["header"], self.version)
 
 
-    def execute(self) -> None:
+    def prepare(self) -> None:
+        pass
+
+
+    def build(self) -> None:
         logging.debug("version = " + self.version.value)
         logging.info("Version executed")
+
+
+    def clean(self) -> None:
+        pass
 

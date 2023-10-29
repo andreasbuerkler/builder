@@ -19,8 +19,16 @@ class CreateBsp(Task):
         self.addParameterWithParent(["output"], self.bsp)
 
 
-    def execute(self) -> None:
+    def prepare(self) -> None:
+        pass
+
+
+    def build(self) -> None:
         logging.debug("builddir = " + self.builddir.value)
         logging.debug("bsp = " + self.bsp.value)
         logging.info("CreateBsp executed")
+
+
+    def clean(self) -> None:
+        pass
 

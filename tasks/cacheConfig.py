@@ -19,8 +19,16 @@ class CacheConfig(Task):
         self.addParameterWithParent(["cache"], self.sharedState)
 
 
-    def execute(self) -> None:
+    def prepare(self) -> None:
+        pass
+
+
+    def build(self) -> None:
         logging.debug("download = " + self.download.value)
         logging.debug("sharedState = " + self.sharedState.value)
         logging.info("CacheConfig executed")
+
+
+    def clean(self) -> None:
+        pass
 

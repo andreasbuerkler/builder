@@ -33,7 +33,29 @@ class Task(ABC, ConfigTree):
             self._iterateTree(branch, parser)
 
 
+    def doPrepare(self) -> None:
+        self.prepare()
+
+
     @abstractmethod
-    def execute(self) -> None:
+    def prepare(self) -> None:
+        pass
+
+
+    def doBuild(self) -> None:
+        self.build()
+
+
+    @abstractmethod
+    def build(self) -> None:
+        pass
+
+
+    def doClean(self) -> None:
+        self.clean()
+
+
+    @abstractmethod
+    def clean(self) -> None:
         pass
 

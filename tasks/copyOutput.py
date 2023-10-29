@@ -19,8 +19,16 @@ class CopyOutput(Task):
         self.addParameterWithParent(["output"], self.files)
 
 
-    def execute(self) -> None:
+    def prepare(self) -> None:
+        pass
+
+
+    def build(self) -> None:
         logging.debug("path = " + self.path.value)
         logging.debug("files = " + self.files.value)
         logging.info("CopyOutput executed")
+
+
+    def clean(self) -> None:
+        pass
 

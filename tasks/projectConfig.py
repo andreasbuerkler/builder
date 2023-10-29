@@ -29,10 +29,18 @@ class ProjectConfig(Task):
         self.addParameterWithParent(["header"], self.builddir)
 
 
-    def execute(self) -> None:
+    def prepare(self) -> None:
+        pass
+
+
+    def build(self) -> None:
         logging.debug("bsp = " + self.bsp.value)
         logging.debug("xsa = " + self.xsa.value)
         logging.debug("arch = " + self.arch.value)
         logging.debug("builddir = " + self.builddir.value)
         logging.info("ProjectConfig executed")
+
+
+    def clean(self) -> None:
+        pass
 

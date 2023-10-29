@@ -60,6 +60,10 @@ def executeBuild() -> None:
     for task in _getTasksSorted():
         task.parseConfig(parser)
     for task in _getTasksSorted():
-        task.execute()
+        task.doPrepare()
+    for task in _getTasksSorted():
+        task.doBuild()
+    for task in _getTasksSorted():
+        task.doClean()
     _reportTime("Build Completed")
 

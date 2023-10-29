@@ -14,7 +14,15 @@ class Build(Task):
         self.addParameterWithParent(["header"], self.builddir)
 
 
-    def execute(self) -> None:
+    def prepare(self) -> None:
+        pass
+
+
+    def build(self) -> None:
         logging.debug("builddir = " + self.builddir.value)
         logging.info("Build executed")
+
+
+    def clean(self) -> None:
+        pass
 

@@ -44,7 +44,11 @@ class BootBinary(Task):
         self.addParameterWithParent(["binary"], self.init)
 
 
-    def execute(self) -> None:
+    def prepare(self) -> None:
+        pass
+
+
+    def build(self) -> None:
         logging.debug("fsbl = " + self.fsbl.value)
         logging.debug("fpga = " + self.fpga.value)
         logging.debug("atf = " + self.atf.value)
@@ -53,4 +57,8 @@ class BootBinary(Task):
         logging.debug("rpu = " + self.rpu.value)
         logging.debug("init = " + self.init.value)
         logging.info("BootBinary executed")
+
+
+    def clean(self) -> None:
+        pass
 
