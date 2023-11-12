@@ -4,8 +4,8 @@ from core.parameter import Parameter
 
 class ProjectConfig(Task):
 
-    def __init__(self, name: str, priority: int) -> None:
-        Task.__init__(self, name, priority)
+    def __init__(self) -> None:
+        Task.__init__(self, name="projectConfig", after="versionCheck")
 
         self.bsp = Parameter(name = "bsp",
                              example = "test.bsp",

@@ -1,4 +1,6 @@
+from typing import cast
 from core.task import Task
+from core.sequence import SequenceOrganizer
 from tasks.versionCheck import VersionCheck
 from tasks.repo import Repo
 from tasks.projectConfig import ProjectConfig
@@ -12,17 +14,18 @@ from tasks.createBsp import CreateBsp
 taskList = []
 
 def init() -> None:
-    taskList.append(VersionCheck("VersionCheck", 1))
-    taskList.append(Repo("Repo", 2))
-    taskList.append(ProjectConfig("ProjectConfig", 3))
-    taskList.append(CacheConfig("CacheConfig", 4))
-    taskList.append(Build("Build", 5))
-    taskList.append(BootBinary("BootBinary", 6))
-    taskList.append(WicImage("WicImage", 7))
-    taskList.append(CopyOutput("CopyOutput", 8))
-    taskList.append(CreateBsp("CreateBsp", 9))
+    taskList.append(VersionCheck())
+    taskList.append(Repo())
+    taskList.append(ProjectConfig())
+    taskList.append(CacheConfig())
+    taskList.append(Build())
+    taskList.append(BootBinary())
+    taskList.append(WicImage())
+    taskList.append(CopyOutput())
+    taskList.append(CreateBsp())
 
 
 def getTasks() -> list[Task]:
-    return taskList
+    organizer = SequenceOrganizer(taskList)
+    return cast(list[Task], organizer.getSortedList())
 

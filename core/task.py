@@ -2,20 +2,13 @@ from abc import ABC, abstractmethod
 from core.parser import Parser
 from core.parameter import ParameterTree
 from core.configTree import ConfigTree
+from core.sequence import Sequence
 
-class Task(ABC, ConfigTree):
+class Task(ABC, ConfigTree, Sequence):
 
-    def __init__(self, name: str, priority: int) -> None:
+    def __init__(self, name: str, before: str = "", after: str = "") -> None:
         ConfigTree.__init__(self)
-        self.name = name
-        self.priority = priority
-
-    def getName(self) -> str:
-        return self.name
-
-
-    def getPriority(self) -> int:
-        return self.priority
+        Sequence.__init__(self, name=name, before=before, after=after)
 
 
     def _iterateTree(self, branch: ParameterTree, parser: Parser) -> None:

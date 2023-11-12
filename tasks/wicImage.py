@@ -4,8 +4,8 @@ from core.parameter import Parameter
 
 class WicImage(Task):
 
-    def __init__(self, name: str, priority: int) -> None:
-        Task.__init__(self, name, priority)
+    def __init__(self) -> None:
+        Task.__init__(self, name="wicImage", after="bootBinary")
 
         self.fat_size = Parameter(name = "fat-size",
                                   example = "200",

@@ -4,8 +4,8 @@ from core.parameter import Parameter
 
 class CreateBsp(Task):
 
-    def __init__(self, name: str, priority: int) -> None:
-        Task.__init__(self, name, priority)
+    def __init__(self) -> None:
+        Task.__init__(self, name="createBsp", after="build")
 
         self.builddir = Parameter(name = "builddir",
                                   example = "build",

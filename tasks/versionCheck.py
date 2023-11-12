@@ -4,8 +4,8 @@ from core.parameter import Parameter
 
 class VersionCheck(Task):
 
-    def __init__(self, name: str, priority: int) -> None:
-        Task.__init__(self, name, priority)
+    def __init__(self) -> None:
+        Task.__init__(self, name="versionCheck")
 
         self.version = Parameter(name = "version",
                                  example = "2022.1",
