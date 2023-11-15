@@ -12,6 +12,7 @@ class SequenceOrganizer():
 
     def __init__(self, elements: list[Sequence]) -> None:
         self.elements = elements.copy()
+        self.numberOfElements = len(elements)
         self.beforeList = []
         self.afterList = []
         self._sortList()
@@ -26,7 +27,7 @@ class SequenceOrganizer():
         self.afterList.clear()
         for beforeIndex in range(0, index):
             self.beforeList.append(self.elements[beforeIndex])
-        for afterIndex in range(index+1, len(self.elements)):
+        for afterIndex in range(index+1, self.numberOfElements):
             self.afterList.append(self.elements[afterIndex])
 
 
@@ -46,7 +47,7 @@ class SequenceOrganizer():
         return False
 
 
-    def _timeout(self, counter: int) -> int:
+    def _checkForTimeout(self, counter: int) -> int:
         if counter == 0:
             logging.error("Task list dependency error")
             raise SystemExit()
@@ -63,22 +64,35 @@ class SequenceOrganizer():
         self.elements.insert(index+1, element)
 
 
-    def _sortList(self) -> None:
-        index = 0
-        counter = len(self.elements) * len(self.elements)
-        while index < len(self.elements):
-            counter = self._timeout(counter)
-
+    def _sortForward(self) -> bool:
+        updated = False
+        for index in range(0, self.numberOfElements):
             self._updateLists(index)
             if self._checkForwardOrder(index):
                 self._moveOneBackward(index)
-                index = 0
-                continue
+                updated = True
+        return updated
 
+
+    def _sortBackward(self) -> bool:
+        updated = False
+        for index in range(0, self.numberOfElements):
+            self._updateLists(index)
             if self._checkBackwardOrder(index):
                 self._moveOneForward(index)
-                index = 0
-                continue
+                updated = True
+        return updated
 
-            index = index + 1
+
+    def _sortList(self) -> None:
+        timeoutCounter = self.numberOfElements * self.numberOfElements
+        oldCounter = timeoutCounter
+        while True:
+            while self._sortForward():
+                timeoutCounter = self._checkForTimeout(timeoutCounter)
+            while self._sortBackward():
+                timeoutCounter = self._checkForTimeout(timeoutCounter)
+            if oldCounter == timeoutCounter:
+                break
+            oldCounter = timeoutCounter
 
