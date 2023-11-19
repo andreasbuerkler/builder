@@ -1,9 +1,9 @@
 import logging
 import yaml
-from core.parser import Parser
+from parser.Iparser import IParser
 from collections import deque
 
-class YamlParser(Parser):
+class YamlParser(IParser):
 
     def __init__(self, filename: str) -> None:
         logging.debug("Loading config file: " + filename)

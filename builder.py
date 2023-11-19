@@ -2,14 +2,15 @@
 
 import sys
 import traceback
-import argparse
+from argparse import ArgumentParser
 import logging
 from log import Log
 import core
+import parser
 import tasks
 
-def parseArgs(argv) -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description='The Great Builder')
+def createArgumentParser() -> ArgumentParser:
+    parser = ArgumentParser(description='The Great Builder')
 
     parser.add_argument("-v", action="version", version="0.1")
     parser.add_argument("-d", action="store_true", help="enable debug log to stdout", dest="debug")
@@ -18,7 +19,7 @@ def parseArgs(argv) -> argparse.Namespace:
     parser.add_argument("-c", action="store", help="filename for configuration", dest="config", type=str)
     parser.add_argument("-l", action="store_true", help="show list of tasks", dest="list")
 
-    return parser.parse_args(argv)
+    return parser
 
 
 def setupLogger(filePath: str, enableDebug: bool) -> None:
@@ -29,12 +30,9 @@ def setupLogger(filePath: str, enableDebug: bool) -> None:
 
 
 def builder(argv) -> int:
-    args = parseArgs(argv)
+    flags = createArgumentParser()
+    args = flags.parse_args(argv)
     setupLogger(args.file, args.debug)
-
-    if args.config:
-        core.configure(args.config)
-
     tasks.init()
 
     # display list of tasks
@@ -49,7 +47,11 @@ def builder(argv) -> int:
         return 0
 
     # execute build
-    core.executeBuild(tasks.getTasks())
+    if args.config:
+        core.executeBuild(tasks.getTasks(), parser.create(args.config))
+        return 0
+
+    flags.print_help()
     return 0
 
 

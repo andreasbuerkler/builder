@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from core.parser import Parser
+from parser.Iparser import IParser
 from core.parameter import ParameterTree
 from core.configTree import ConfigTree
 from core.sequence import Sequence
@@ -11,7 +11,7 @@ class Task(ABC, ConfigTree, Sequence):
         Sequence.__init__(self, name=name, before=before, after=after)
 
 
-    def _iterateTree(self, branch: ParameterTree, parser: Parser) -> None:
+    def _iterateTree(self, branch: ParameterTree, parser: IParser) -> None:
         branch.parameter.value = parser.getValue(branch.parameter.name)
         elementIsPresent =  parser.gotoElement(branch.parameter.name)
         for child in branch.children:
@@ -20,7 +20,7 @@ class Task(ABC, ConfigTree, Sequence):
             parser.goBack()
 
 
-    def parseConfig(self, parser: Parser) -> None:
+    def parseConfig(self, parser: IParser) -> None:
         parser.gotoRoot()
         for branch in self.getTree():
             self._iterateTree(branch, parser)

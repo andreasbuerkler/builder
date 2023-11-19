@@ -1,12 +1,9 @@
-import os
-import pathlib
 import logging
 from datetime import datetime
-from core.yamlParser import YamlParser
+from parser.Iparser import IParser
 from core.exampleConfig import ExampleConfig
 from core.task import Task
 
-parser = None
 
 def _reportTime(message: str = "") -> None:
     now = datetime.now()
@@ -21,22 +18,7 @@ def getExampleConfig(taskList: list[Task]) -> str:
     return example.getExampleConfig()
 
 
-def configure(configFilePath: str):
-    if os.path.isfile(configFilePath) == False:
-        logging.error("Config file does not exist")
-        raise SystemExit()
-
-    global parser
-    ending = pathlib.Path(configFilePath).suffix
-    if (ending == ".yml") or (ending == ".yaml"):
-        parser = YamlParser(configFilePath)
-    else:
-        logging.error("Config file type not supported")
-        raise SystemExit()
-
-
-def executeBuild(taskList: list[Task]) -> None:
-    global parser
+def executeBuild(taskList: list[Task], parser: IParser) -> None:
     if not parser:
         logging.info("Nothing to build")
         return
