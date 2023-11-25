@@ -5,7 +5,7 @@ from core.parameter import Parameter
 class CacheConfig(Task):
 
     def __init__(self) -> None:
-        Task.__init__(self, name="cacheConfig", after="projectConfig")
+        Task.__init__(self, name="cacheConfig", before="build", after="projectConfig")
 
         self.download = Parameter(name = "download",
                                  example = "cache/dl",
