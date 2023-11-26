@@ -8,12 +8,14 @@ class CacheConfig(Task):
         Task.__init__(self, name="cacheConfig", before="build", after="projectConfig")
 
         self.download = Parameter(name = "download",
-                                 example = "cache/dl",
-                                 description = "")
+                                  example = "/home/user/cache/dl",
+                                  isOptional = True,
+                                  description = "Absolute path to download cache directory")
 
         self.sharedState = Parameter(name = "sharedState",
-                                 example = "cache/sstate",
-                                 description = "")
+                                     example = "/home/user/cache/sstate",
+                                     isOptional = True,
+                                     description = "Absolute path to shared state cache directory")
 
         self.addParameterWithParent(["cache"], self.download)
         self.addParameterWithParent(["cache"], self.sharedState)

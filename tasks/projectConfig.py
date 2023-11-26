@@ -9,19 +9,22 @@ class ProjectConfig(Task):
 
         self.bsp = Parameter(name = "bsp",
                              example = "test.bsp",
-                             description = "optional")
+                             isOptional = True,
+                             description = "Path to BSP file")
 
         self.xsa= Parameter(name = "xsa",
                             example = "test.xsa",
-                            description = "optional when bsp is defined")
+                            isOptional = True,
+                            optionalCondition = ["bsp"],
+                            description = "Path to XSA file")
 
         self.arch = Parameter(name = "arch",
                               example = "zynqMP",
-                              description = "")
+                              description = "zynq or zynqMP")
 
         self.builddir = Parameter(name = "builddir",
                                   example = "build",
-                                  description = "")
+                                  description = "Project name")
 
         self.addParameterWithParent(["header"], self.bsp)
         self.addParameterWithParent(["header"], self.xsa)

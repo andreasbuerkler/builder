@@ -9,11 +9,13 @@ class WicImage(Task):
 
         self.fat_size = Parameter(name = "fat-size",
                                   example = "200",
-                                  description = "optional, size in MByte, use default partitioning if missing")
+                                  isOptional = True,
+                                  description = "size in MByte, use default partitioning if missing")
 
         self.ext4_size = Parameter(name = "ext4-size",
                                    example = "500",
-                                   description = "optional, no ext4 if missing")
+                                   isOptional = True,
+                                   description = "no ext4 if missing")
 
         self.addParameterWithParent(["image"], self.fat_size)
         self.addParameterWithParent(["image"], self.ext4_size)

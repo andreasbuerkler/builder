@@ -9,7 +9,7 @@ class VersionCheck(Task):
 
         self.version = Parameter(name = "version",
                                  example = "2022.1",
-                                 description = "")
+                                 description = "Version used by project")
 
         self.addParameterWithParent(["header"], self.version)
 

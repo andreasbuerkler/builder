@@ -9,11 +9,12 @@ class CreateBsp(Task):
 
         self.builddir = Parameter(name = "builddir",
                                   example = "build",
-                                  description = "")
+                                  description = "Project name")
 
         self.bsp = Parameter(name = "bsp",
                              example = "test.bsp",
-                             description = "optional, create bsp")
+                             isOptional = True,
+                             description = "Creat BSP with specified name")
 
         self.addParameterWithParent(["header"], self.builddir)
         self.addParameterWithParent(["output"], self.bsp)

@@ -9,31 +9,38 @@ class BootBinary(Task):
 
         self.fsbl = Parameter(name = "fsbl",
                               example = "zynqmp_fsbl.elf",
-                              description = "optional")
+                              isOptional = True,
+                              description = "Path to FSBL binary")
 
         self.fpga = Parameter(name = "fpga",
                               example = "fpga.bit",
-                              description = "optional")
+                              isOptional = True,
+                              description = "Path to bitstream / no bitstream if missing / default bitstream if empty")
 
         self.atf = Parameter(name = "atf",
                              example = "bl31.elf",
-                             description = "optional")
+                             isOptional = True,
+                             description = "Path to ATF binary")
 
         self.uboot = Parameter(name = "uboot",
                                example = "u-boot.elf",
-                               description = "optional")
+                               isOptional = True,
+                               description = "Path to U-Boot binary")
 
         self.pmufw = Parameter(name = "pmufw",
                                example = "pmufw.elf",
-                               description = "optional")
+                               isOptional = True,
+                               description = "Path to PMU firmware binary")
 
         self.rpu = Parameter(name = "rpu",
                              example = "test.elf",
-                             description = "optional")
+                             isOptional = True,
+                             description = "Path to binary executed on RPU")
 
         self.init = Parameter(name = "init",
                               example = "regs.init",
-                              description = "optional")
+                              isOptional = True,
+                              description = "Register initialization file for boot ROM")
 
         self.addParameterWithParent(["binary"], self.fsbl)
         self.addParameterWithParent(["binary"], self.fpga)

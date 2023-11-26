@@ -9,11 +9,14 @@ class CopyOutput(Task):
 
         self.path = Parameter(name = "path",
                               example = "binaries",
-                              description = "")
+                              isOptional = True,
+                              description = "Direcory where files are copied to")
 
         self.files = Parameter(name = "files",
                                example = "Image.ub uboot.scr boot.bin",
-                               description = "files separated by spaces")
+                               isOptional = True,
+                               requires = ["path"],
+                               description = "Files separated by spaces")
 
         self.addParameterWithParent(["output"], self.path)
         self.addParameterWithParent(["output"], self.files)
