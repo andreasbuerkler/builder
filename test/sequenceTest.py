@@ -78,7 +78,3 @@ class SequenceTest(unittest.TestCase):
 
         self.assertTrue(sorted == expected)
 
-
-if __name__ == '__main__':
-    unittest.main()
-
