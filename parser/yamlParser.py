@@ -21,7 +21,8 @@ class YamlParser(IParser):
 
 
     def goBack(self) -> None:
-        self.pointer = self.stack.pop()
+        if len(self.stack) > 0:
+            self.pointer = self.stack.pop()
 
 
     def gotoElement(self, name: str) -> bool:
@@ -46,9 +47,10 @@ class YamlParser(IParser):
 
     def getList(self) -> list[str]:
         list = []
-        for element, unused in self.pointer.items():
-            _ = unused
-            list.append(element)
+        if isinstance(self.pointer, dict):
+            for element, unused in self.pointer.items():
+                _ = unused
+                list.append(element)
         return list
 
 
