@@ -1,5 +1,5 @@
-from core.parameter import Parameter, ParameterTree
-from core.configTree import ConfigTree
+from config.parameter import Parameter, ParameterTree
+from config.configTree import ConfigTree
 
 class ExampleConfig(ConfigTree):
 

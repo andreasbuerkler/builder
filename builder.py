@@ -5,6 +5,7 @@ import traceback
 from argparse import ArgumentParser
 import logging
 from log import Log
+import config
 import core
 import parser
 import tasks
@@ -37,21 +38,22 @@ def builder(argv) -> int:
 
     # display list of tasks
     if args.list:
-        logging.info("Tasks: " + ", ".join([task.name for task in tasks.getTasks()]))
+        taskList: list[str] = core.getTaskSequence(tasks.getTasks())
+        logging.info("Tasks: " + ", ".join(taskList))
         return 0
 
     # display example configuration file
     if args.example:
-        message = "\n".ljust(80, "-") + core.getExampleConfig(tasks.getTasks()) + "\n".ljust(80, "-")
+        message = "\n".ljust(80, "-") + config.getExampleConfig(tasks.getTasks()) + "\n".ljust(80, "-")
         logging.info("Example:" + message)
         return 0
 
-    # execute build
+    # apply configuration
     if args.config:
-        core.executeBuild(tasks.getTasks(), parser.create(args.config))
-        return 0
+        config.transfer(tasks.getTasks(), parser.create(args.config))
 
-    flags.print_help()
+    # execute build
+    core.executeBuild(tasks.getTasks())
     return 0
 
 

@@ -9,7 +9,7 @@ class Parameter:
     isOptional: bool = False
     optionalCondition: list[str] = field(default_factory=list)
     requires: list[str] = field(default_factory=list)
-    parent: str = ""
+    parent: list[str] = field(default_factory=list)
 
 
 @dataclass

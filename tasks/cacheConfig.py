@@ -1,24 +1,29 @@
 import logging
-from core.task import Task
-from core.parameter import Parameter
+from tasks.Itask import ITask
+from config.parameter import Parameter
+from config.configTree import ConfigTree
+from core.sequence import Sequence
 
-class CacheConfig(Task):
+class CacheConfig(ITask, ConfigTree, Sequence):
 
     def __init__(self) -> None:
-        Task.__init__(self, name="cacheConfig", before="build", after="projectConfig")
+        ConfigTree.__init__(self)
+        Sequence.__init__(self, name="cacheConfig", before="build", after="projectConfig")
 
         self.download = Parameter(name = "download",
+                                  parent = ["cache"],
                                   example = "/home/user/cache/dl",
                                   isOptional = True,
                                   description = "Absolute path to download cache directory")
 
         self.sharedState = Parameter(name = "sharedState",
+                                     parent = ["cache"],
                                      example = "/home/user/cache/sstate",
                                      isOptional = True,
                                      description = "Absolute path to shared state cache directory")
 
-        self.addParameterWithParent(["cache"], self.download)
-        self.addParameterWithParent(["cache"], self.sharedState)
+        self.addParameter(self.download)
+        self.addParameter(self.sharedState)
 
 
     def prepare(self) -> None:

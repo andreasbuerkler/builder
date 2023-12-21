@@ -1,9 +1,7 @@
 import logging
 from datetime import datetime
-from parser.Iparser import IParser
-from core.exampleConfig import ExampleConfig
-from core.task import Task
-
+from tasks.Itask import ITask
+from core.sequence import Sequence
 
 def _reportTime(message: str = "") -> None:
     now = datetime.now()
@@ -11,21 +9,8 @@ def _reportTime(message: str = "") -> None:
     logging.info(message + ": " + timeString)
 
 
-def getExampleConfig(taskList: list[Task]) -> str:
-    example = ExampleConfig()
-    for task in taskList:
-        example.addParameterList(task.getList())
-    return example.getExampleConfig()
-
-
-def executeBuild(taskList: list[Task], parser: IParser) -> None:
-    if not parser:
-        logging.info("Nothing to build")
-        return
-
+def executeBuild(taskList: list[ITask]) -> None:
     _reportTime("Start Build")
-    for task in taskList:
-        task.parseConfig(parser)
     for task in taskList:
         task.doPrepare()
     for task in taskList:
@@ -33,4 +18,12 @@ def executeBuild(taskList: list[Task], parser: IParser) -> None:
     for task in taskList:
         task.doClean()
     _reportTime("Build Completed")
+
+
+def getTaskSequence(taskList: list[ITask]) -> list[str]:
+    taskSequence: list[str] = []
+    for task in taskList:
+        if isinstance(task, Sequence):
+            taskSequence.append(task.name)
+    return taskSequence
 

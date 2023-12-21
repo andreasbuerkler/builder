@@ -1,17 +1,21 @@
 import logging
-from core.task import Task
-from core.parameter import Parameter
+from tasks.Itask import ITask
+from config.parameter import Parameter
+from config.configTree import ConfigTree
+from core.sequence import Sequence
 
-class VersionCheck(Task):
+class VersionCheck(ITask, ConfigTree, Sequence):
 
     def __init__(self) -> None:
-        Task.__init__(self, name="versionCheck")
+        ConfigTree.__init__(self)
+        Sequence.__init__(self, name="versionCheck")
 
         self.version = Parameter(name = "version",
+                                 parent = ["header"],
                                  example = "2022.1",
                                  description = "Version used by project")
 
-        self.addParameterWithParent(["header"], self.version)
+        self.addParameter(self.version)
 
 
     def prepare(self) -> None:

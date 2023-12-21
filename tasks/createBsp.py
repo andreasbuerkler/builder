@@ -1,23 +1,28 @@
 import logging
-from core.task import Task
-from core.parameter import Parameter
+from tasks.Itask import ITask
+from config.parameter import Parameter
+from config.configTree import ConfigTree
+from core.sequence import Sequence
 
-class CreateBsp(Task):
+class CreateBsp(ITask, ConfigTree, Sequence):
 
     def __init__(self) -> None:
-        Task.__init__(self, name="createBsp", after="build")
+        ConfigTree.__init__(self)
+        Sequence.__init__(self, name="createBsp", after="build")
 
         self.builddir = Parameter(name = "builddir",
+                                  parent = ["header"],
                                   example = "build",
                                   description = "Project name")
 
         self.bsp = Parameter(name = "bsp",
+                             parent = ["output"],
                              example = "test.bsp",
                              isOptional = True,
                              description = "Creat BSP with specified name")
 
-        self.addParameterWithParent(["header"], self.builddir)
-        self.addParameterWithParent(["output"], self.bsp)
+        self.addParameter(self.builddir)
+        self.addParameter(self.bsp)
 
 
     def prepare(self) -> None:

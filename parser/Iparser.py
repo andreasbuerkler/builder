@@ -18,7 +18,7 @@ class IParser(ABC):
 
 
     @abstractmethod
-    def getList(self) -> list:
+    def getList(self) -> list[str]:
         return []
 
 

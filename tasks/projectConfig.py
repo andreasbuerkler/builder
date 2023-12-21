@@ -1,35 +1,42 @@
 import logging
-from core.task import Task
-from core.parameter import Parameter
+from tasks.Itask import ITask
+from config.parameter import Parameter
+from config.configTree import ConfigTree
+from core.sequence import Sequence
 
-class ProjectConfig(Task):
+class ProjectConfig(ITask, ConfigTree, Sequence):
 
     def __init__(self) -> None:
-        Task.__init__(self, name="projectConfig", after="versionCheck")
+        ConfigTree.__init__(self)
+        Sequence.__init__(self, name="projectConfig", after="versionCheck")
 
         self.bsp = Parameter(name = "bsp",
+                             parent = ["header"],
                              example = "test.bsp",
                              isOptional = True,
                              description = "Path to BSP file")
 
         self.xsa= Parameter(name = "xsa",
+                            parent = ["header"],
                             example = "test.xsa",
                             isOptional = True,
                             optionalCondition = ["bsp"],
                             description = "Path to XSA file")
 
         self.arch = Parameter(name = "arch",
+                              parent = ["header"],
                               example = "zynqMP",
                               description = "zynq or zynqMP")
 
         self.builddir = Parameter(name = "builddir",
+                                  parent = ["header"],
                                   example = "build",
                                   description = "Project name")
 
-        self.addParameterWithParent(["header"], self.bsp)
-        self.addParameterWithParent(["header"], self.xsa)
-        self.addParameterWithParent(["header"], self.arch)
-        self.addParameterWithParent(["header"], self.builddir)
+        self.addParameter(self.bsp)
+        self.addParameter(self.xsa)
+        self.addParameter(self.arch)
+        self.addParameter(self.builddir)
 
 
     def prepare(self) -> None:

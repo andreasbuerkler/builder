@@ -1,5 +1,5 @@
 from typing import cast
-from core.task import Task
+from tasks.Itask import ITask
 from core.sequence import SequenceOrganizer
 from tasks.versionCheck import VersionCheck
 from tasks.repo import Repo
@@ -25,7 +25,7 @@ def init() -> None:
     taskList.append(CreateBsp())
 
 
-def getTasks() -> list[Task]:
+def getTasks() -> list[ITask]:
     organizer = SequenceOrganizer(taskList)
-    return cast(list[Task], organizer.getSortedList())
+    return cast(list[ITask], organizer.getSortedList())
 

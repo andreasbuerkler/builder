@@ -1,11 +1,14 @@
 import logging
-from core.task import Task
-from core.parameter import Parameter
+from tasks.Itask import ITask
+from config.parameter import Parameter
+from config.configTree import ConfigTree
+from core.sequence import Sequence
 
-class Repo(Task):
+class Repo(ITask, ConfigTree, Sequence):
 
     def __init__(self) -> None:
-        Task.__init__(self, name="repo", before="build")
+        ConfigTree.__init__(self)
+        Sequence.__init__(self, name="repo", before="build")
 
 
     def prepare(self) -> None:

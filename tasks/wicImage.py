@@ -1,24 +1,29 @@
 import logging
-from core.task import Task
-from core.parameter import Parameter
+from tasks.Itask import ITask
+from config.parameter import Parameter
+from config.configTree import ConfigTree
+from core.sequence import Sequence
 
-class WicImage(Task):
+class WicImage(ITask, ConfigTree, Sequence):
 
     def __init__(self) -> None:
-        Task.__init__(self, name="wicImage", after="bootBinary")
+        ConfigTree.__init__(self)
+        Sequence.__init__(self, name="wicImage", after="bootBinary")
 
         self.fat_size = Parameter(name = "fat-size",
+                                  parent = ["image"],
                                   example = "200",
                                   isOptional = True,
                                   description = "size in MByte, use default partitioning if missing")
 
         self.ext4_size = Parameter(name = "ext4-size",
+                                   parent = ["image"],
                                    example = "500",
                                    isOptional = True,
                                    description = "no ext4 if missing")
 
-        self.addParameterWithParent(["image"], self.fat_size)
-        self.addParameterWithParent(["image"], self.ext4_size)
+        self.addParameter(self.fat_size)
+        self.addParameter(self.ext4_size)
 
 
     def prepare(self) -> None:

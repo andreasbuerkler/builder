@@ -1,17 +1,21 @@
 import logging
-from core.task import Task
-from core.parameter import Parameter
+from tasks.Itask import ITask
+from config.parameter import Parameter
+from config.configTree import ConfigTree
+from core.sequence import Sequence
 
-class Build(Task):
+class Build(ITask, ConfigTree, Sequence):
 
     def __init__(self) -> None:
-        Task.__init__(self, name="build", after="projectConfig")
+        ConfigTree.__init__(self)
+        Sequence.__init__(self, name="build", after="projectConfig")
 
         self.builddir = Parameter(name = "builddir",
+                                  parent = ["header"],
                                   example = "build",
                                   description = "")
 
-        self.addParameterWithParent(["header"], self.builddir)
+        self.addParameter(self.builddir)
 
 
     def prepare(self) -> None:
