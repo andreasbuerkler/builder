@@ -14,6 +14,7 @@ class ProjectConfig(ITask, ConfigTree, Sequence):
                              parent = ["header"],
                              example = "test.bsp",
                              isOptional = True,
+                             optionalCondition = ["xsa"],
                              description = "Path to BSP file")
 
         self.xsa= Parameter(name = "xsa",

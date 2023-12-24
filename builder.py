@@ -35,6 +35,7 @@ def builder(argv) -> int:
     args = flags.parse_args(argv)
     setupLogger(args.file, args.debug)
     tasks.init()
+    tasks.setTasks(core.sort(tasks.getTasks()))
 
     # display list of tasks
     if args.list:
@@ -53,7 +54,7 @@ def builder(argv) -> int:
         config.transfer(tasks.getTasks(), parser.create(args.config))
 
     # execute build
-    core.executeBuild(tasks.getTasks())
+    tasks.executeBuild()
     return 0
 
 
