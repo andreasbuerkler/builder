@@ -20,7 +20,7 @@ class CopyOutput(ITask, ConfigTree, Sequence):
                                parent = ["output"],
                                example = "Image.ub uboot.scr boot.bin",
                                isOptional = True,
-                               requires = ["path"],
+                               requires = [self.path],
                                description = "Files separated by spaces")
 
         self.addParameter(self.path)

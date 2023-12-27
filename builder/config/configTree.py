@@ -6,7 +6,7 @@ class ConfigTree:
         self.tree: list[ParameterTree] = []
 
 
-    def _CheckIfParameterExists(self, trunk: list[ParameterTree], new: Parameter) -> bool:
+    def _checkIfParameterExists(self, trunk: list[ParameterTree], new: Parameter) -> bool:
         for branch in trunk:
             if branch.parameter.name == new.name:
                 return True
@@ -39,7 +39,7 @@ class ConfigTree:
 
             parentList.append(parent)
 
-        if self._CheckIfParameterExists(tree, new):
+        if self._checkIfParameterExists(tree, new):
             return
         tree.append(ParameterTree(parameter = new))
 

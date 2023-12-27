@@ -14,14 +14,12 @@ class ProjectConfig(ITask, ConfigTree, Sequence):
                              parent = ["header"],
                              example = "test.bsp",
                              isOptional = True,
-                             optionalCondition = ["xsa"],
                              description = "Path to BSP file")
 
         self.xsa= Parameter(name = "xsa",
                             parent = ["header"],
                             example = "test.xsa",
                             isOptional = True,
-                            optionalCondition = ["bsp"],
                             description = "Path to XSA file")
 
         self.arch = Parameter(name = "arch",
@@ -33,6 +31,9 @@ class ProjectConfig(ITask, ConfigTree, Sequence):
                                   parent = ["header"],
                                   example = "build",
                                   description = "Project name")
+
+        self.bsp.optionalCondition = [self.xsa]
+        self.xsa.optionalCondition = [self.bsp]
 
         self.addParameter(self.bsp)
         self.addParameter(self.xsa)
