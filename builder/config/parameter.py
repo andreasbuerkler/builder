@@ -16,4 +16,3 @@ class Parameter:
 class ParameterTree:
     parameter: Parameter
     children: list["ParameterTree"] = field(default_factory=list)
-

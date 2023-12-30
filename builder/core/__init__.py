@@ -1,6 +1,6 @@
 from typing import cast
-from tasks.Itask import ITask
-from core.sequence import Sequence, SequenceOrganizer
+from builder.tasks.Itask import ITask
+from builder.core.sequence import Sequence, SequenceOrganizer
 
 def getTaskSequence(taskList: list[ITask]) -> list[str]:
     taskSequence: list[str] = []
@@ -16,4 +16,3 @@ def sort(taskList: list[ITask]) -> list[ITask]:
             raise Exception("element is not of type Sequence")
     organizer = SequenceOrganizer(cast(list[Sequence], taskList))
     return cast(list[ITask], organizer.getSortedList())
-

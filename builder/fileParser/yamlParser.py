@@ -1,7 +1,7 @@
+from collections import deque
 import logging
 import yaml
-from parser.Iparser import IParser
-from collections import deque
+from builder.fileParser.Iparser import IParser
 
 class YamlParser(IParser):
 
@@ -46,12 +46,12 @@ class YamlParser(IParser):
 
 
     def getList(self) -> list[str]:
-        list = []
+        tempList: list[str] = []
         if isinstance(self.pointer, dict):
             for element, unused in self.pointer.items():
                 _ = unused
-                list.append(element)
-        return list
+                tempList.append(element)
+        return tempList
 
 
     def getValue(self, name: str) -> str:
@@ -62,4 +62,3 @@ class YamlParser(IParser):
         if isinstance(element, str):
             return element
         return ""
-

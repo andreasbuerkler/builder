@@ -27,4 +27,3 @@ class ITask(ABC):
     @abstractmethod
     def clean(self) -> None:
         pass
-

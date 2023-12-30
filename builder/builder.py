@@ -1,66 +1,64 @@
-#!/usr/bin/env python3
-
 import sys
 import traceback
 from argparse import ArgumentParser
 import logging
-from log import Log
-import config
-import core
-import parser
-import tasks
+import builder.config
+import builder.core
+import builder.fileParser
+import builder.tasks
+from builder.log import Log
 
-def createArgumentParser() -> ArgumentParser:
-    parser = ArgumentParser(description='The Great Builder')
+def _createArgumentParser() -> ArgumentParser:
+    argumentParser = ArgumentParser(description='The Great Builder')
 
-    parser.add_argument("-v", action="version", version="0.1")
-    parser.add_argument("-d", action="store_true", help="enable debug log to stdout", dest="debug")
-    parser.add_argument("-e", action="store_true", help="display configuration file example", dest="example")
-    parser.add_argument("-f", action="store", help="filename for logging", dest="file", type=str)
-    parser.add_argument("-c", action="store", help="filename for configuration", dest="config", type=str)
-    parser.add_argument("-l", action="store_true", help="show list of tasks", dest="list")
+    argumentParser.add_argument("-v", action="version", version="0.1")
+    argumentParser.add_argument("-d", action="store_true", help="enable debug log to stdout", dest="debug")
+    argumentParser.add_argument("-e", action="store_true", help="display configuration file example", dest="example")
+    argumentParser.add_argument("-f", action="store", help="filename for logging", dest="file", type=str)
+    argumentParser.add_argument("-c", action="store", help="filename for configuration", dest="config", type=str)
+    argumentParser.add_argument("-l", action="store_true", help="show list of tasks", dest="list")
 
-    return parser
+    return argumentParser
 
 
-def setupLogger(filePath: str, enableDebug: bool) -> None:
+def _setupLogger(filePath: str, enableDebug: bool) -> None:
     log = Log()
     log.setupConsoleLogger(logging.DEBUG if enableDebug else logging.INFO)
     if filePath:
         log.setupFileLogger(filePath)
 
 
-def builder(argv) -> int:
-    flags = createArgumentParser()
+def _build(argv) -> int:
+    flags = _createArgumentParser()
     args = flags.parse_args(argv)
-    setupLogger(args.file, args.debug)
-    tasks.init()
-    tasks.setTasks(core.sort(tasks.getTasks()))
+    _setupLogger(args.file, args.debug)
+    builder.tasks.init()
+    builder.tasks.setTasks(builder.core.sort(builder.tasks.getTasks()))
 
     # display list of tasks
     if args.list:
-        taskList: list[str] = core.getTaskSequence(tasks.getTasks())
+        taskList: list[str] = builder.core.getTaskSequence(builder.tasks.getTasks())
         logging.info("Tasks: " + ", ".join(taskList))
         return 0
 
     # display example configuration file
     if args.example:
-        message = "\n".ljust(80, "-") + config.getExampleConfig(tasks.getTasks()) + "\n".ljust(80, "-")
+        message = "\n".ljust(80, "-") + builder.config.getExampleConfig(builder.tasks.getTasks()) + "\n".ljust(80, "-")
         logging.info("Example:" + message)
         return 0
 
     # apply configuration
     if args.config:
-        config.transfer(tasks.getTasks(), parser.create(args.config))
+        builder.config.transfer(builder.tasks.getTasks(), builder.fileParser.create(args.config))
 
     # execute build
-    tasks.executeBuild()
+    builder.tasks.executeBuild()
     return 0
 
 
 def main() -> None:
     try:
-        sys.exit(builder(sys.argv[1:]))
+        sys.exit(_build(sys.argv[1:]))
     except Exception as err:
         logging.error('%s', err)
         traceback.print_exc()
@@ -69,4 +67,3 @@ def main() -> None:
 
 if __name__ == '__main__':
     main()
-

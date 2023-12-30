@@ -55,4 +55,3 @@ class Log:
         log = logging.getLogger()
         log.addHandler(fileHandler)
         log.setLevel(logging.DEBUG)
-

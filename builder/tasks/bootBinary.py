@@ -1,8 +1,8 @@
 import logging
-from tasks.Itask import ITask
-from config.parameter import Parameter
-from config.configTree import ConfigTree
-from core.sequence import Sequence
+from builder.tasks.Itask import ITask
+from builder.config.parameter import Parameter
+from builder.config.configTree import ConfigTree
+from builder.core.sequence import Sequence
 
 class BootBinary(ITask, ConfigTree, Sequence):
 
@@ -78,4 +78,3 @@ class BootBinary(ITask, ConfigTree, Sequence):
 
     def clean(self) -> None:
         pass
-

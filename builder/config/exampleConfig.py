@@ -1,5 +1,5 @@
-from config.parameter import Parameter, ParameterTree
-from config.configTree import ConfigTree
+from builder.config.parameter import Parameter, ParameterTree
+from builder.config.configTree import ConfigTree
 
 class ExampleConfig(ConfigTree):
 
@@ -41,4 +41,3 @@ class ExampleConfig(ConfigTree):
         for branch in self.getTree():
             self._addParameterToExampleConfig(branch, 0)
         return self.text
-

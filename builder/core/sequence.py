@@ -95,4 +95,3 @@ class SequenceOrganizer():
             if oldCounter == timeoutCounter:
                 break
             oldCounter = timeoutCounter
-

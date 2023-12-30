@@ -1,9 +1,9 @@
-from config.exampleConfig import ExampleConfig
-from config.configTree import ConfigTree
-from config.configParser import ConfigParser
-from config.parameter import Parameter
-from tasks.Itask import ITask
-from parser.Iparser import IParser
+from builder.config.exampleConfig import ExampleConfig
+from builder.config.configTree import ConfigTree
+from builder.config.configParser import ConfigParser
+from builder.config.parameter import Parameter
+from builder.tasks.Itask import ITask
+from builder.fileParser.Iparser import IParser
 
 def getExampleConfig(taskList: list[ITask]) -> str:
     example = ExampleConfig()
@@ -13,8 +13,8 @@ def getExampleConfig(taskList: list[ITask]) -> str:
     return example.getExampleConfig()
 
 
-def transfer(taskList: list[ITask], parser: IParser):
-    parsedConfig = ConfigParser(parser)
+def transfer(taskList: list[ITask], configFileParser: IParser):
+    parsedConfig = ConfigParser(configFileParser)
     configList: list[Parameter] = []
     for task in taskList:
         if isinstance(task, ConfigTree):
@@ -22,4 +22,3 @@ def transfer(taskList: list[ITask], parser: IParser):
             for config in task.getList():
                 configList.append(config)
     parsedConfig.verify(configList)
-

@@ -1,33 +1,31 @@
-from abc import ABC, abstractmethod
+import logging
+from builder.fileParser.Iparser import IParser
 
-class IParser(ABC):
+class DummyParser(IParser):
 
-    @abstractmethod
+    def __init__(self):
+        logging.warning("Using dummy parser")
+
+
     def gotoRoot(self) -> None:
         pass
 
 
-    @abstractmethod
     def goBack(self) -> None:
         pass
 
 
-    @abstractmethod
     def gotoElement(self, name: str) -> bool:
-        return False
+        return True
 
 
-    @abstractmethod
-    def getList(self) -> list[str]:
-        return []
-
-
-    @abstractmethod
     def elementIsAvailable(self, name: str) -> bool:
         return False
 
 
-    @abstractmethod
+    def getList(self) -> list[str]:
+        return []
+
+
     def getValue(self, name: str) -> str:
         return ""
-

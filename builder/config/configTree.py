@@ -1,4 +1,4 @@
-from config.parameter import Parameter, ParameterTree
+from builder.config.parameter import Parameter, ParameterTree
 
 class ConfigTree:
 
@@ -65,4 +65,3 @@ class ConfigTree:
             self._createList(parameterList, branch)
 
         return parameterList
-

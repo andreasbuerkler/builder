@@ -1,33 +1,33 @@
 from typing import Callable
-from config.parameter import Parameter
-from config.configTree import ConfigTree
-from parser.Iparser import IParser
+from builder.config.parameter import Parameter
+from builder.config.configTree import ConfigTree
+from builder.fileParser.Iparser import IParser
 
 class ConfigParser(ConfigTree):
 
-    def __init__(self, parser: IParser) -> None:
+    def __init__(self, configFileParser: IParser) -> None:
         ConfigTree.__init__(self)
-        self.parser = parser
+        self.configFileParser = configFileParser
         self._create()
 
 
     def _iterate(self, parentList: list[str], callback: Callable[[Parameter, ConfigTree], None], tree: ConfigTree) -> None:
-        for element in self.parser.getList():
+        for element in self.configFileParser.getList():
             parameter = Parameter(name = element,
-                                  value = self.parser.getValue(element),
+                                  value = self.configFileParser.getValue(element),
                                   parent = parentList.copy())
             callback(parameter, tree)
 
-            self.parser.gotoElement(element)
+            self.configFileParser.gotoElement(element)
             parentList.append(element)
             self._iterate(parentList, callback, tree)
 
             parentList.pop()
-        self.parser.goBack()
+        self.configFileParser.goBack()
 
 
     def _create(self) -> None:
-        self.parser.gotoRoot();
+        self.configFileParser.gotoRoot()
         self._iterate([], self._addParameter, self)
 
 
@@ -44,7 +44,7 @@ class ConfigParser(ConfigTree):
 
 
     def transferValues(self, config: ConfigTree) -> None:
-        self.parser.gotoRoot();
+        self.configFileParser.gotoRoot()
         self._iterate([], self._transferValue, config)
 
 
@@ -93,4 +93,3 @@ class ConfigParser(ConfigTree):
                 for required in setting.requires:
                     if not self._parameterIsInList(required, parsedList):
                         raise Exception("Setting is missing: " + ",".join(required.parent) + "," + required.name)
-
